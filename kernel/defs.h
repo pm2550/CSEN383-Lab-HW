@@ -143,6 +143,7 @@ int             fetchaddr(uint64, uint64*);
 void            syscall();
 void            syscallinit(void);
 int             getnsyscalls(void);
+void            count_syscall(void);
 
 // trap.c
 extern uint     ticks;

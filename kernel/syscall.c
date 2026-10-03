@@ -154,10 +154,7 @@ syscall(void)
     // Use num to lookup the system call function for num, call it,
     // and store its return value in p->trapframe->a0
     p->trapframe->a0 = syscalls[num]();
-    acquire(&syscalls_info.lock);
-    syscalls_info.nsyscalls++;
-    release(&syscalls_info.lock);
-    p->syscall_count++;
+    count_syscall();
   } else {
     printf("%d %s: unknown sys call %d\n",
             p->pid, p->name, num);
@@ -173,4 +170,14 @@ getnsyscalls(void)
   n = syscalls_info.nsyscalls;
   release(&syscalls_info.lock);
   return n;
+}
+
+void
+count_syscall(void)
+{
+  struct proc *p = myproc();
+  acquire(&syscalls_info.lock);
+  syscalls_info.nsyscalls++;
+  release(&syscalls_info.lock);
+  p->syscall_count++;
 }

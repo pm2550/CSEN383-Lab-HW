@@ -11,6 +11,7 @@ sys_exit(void)
 {
   int n;
   argint(0, &n);
+  count_syscall();
   exit(n);
   return 0;  // not reached
 }
